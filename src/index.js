@@ -7,6 +7,7 @@ const Ticket = require('./models/ticket');
 const userRouter = require('./routers/user');
 const ticketRouter = require('./routers/ticket');
 const productRouter = require('./routers/product')
+const txnRouter = require('./routers/transaction')
 
 const cors = require('cors');
 
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(ticketRouter);
 app.use(productRouter);
+app.use(txnRouter);
 
 app.post('/test', (req, res) =>{
     res.send("Hello MSO1")

@@ -26,15 +26,15 @@ const ticketSchema = new mongoose.Schema({
             }
         }
     },
-    orderid: {
+    orderId: {
         type: String,
         required: true
     },
-    bookingid: {
+    paymentId: {
         type: String,
         required: true
     },
-    cost: {
+    amount: {
         type: Number,
         default: 0,
         validate(value) {
@@ -42,6 +42,10 @@ const ticketSchema = new mongoose.Schema({
                 throw new Error('Cost cant be less than 0');
             }
         }
+    },
+    shopCart: {
+        type: Array,
+        default: []
     },
     qrcode: {
         type: Buffer
