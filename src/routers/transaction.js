@@ -86,7 +86,7 @@ router.post('/paymentCapture', async (req, res) => {
             await transaction.save(); 
             res.json({
                 status: 'ok',
-                payload: razorData
+                payload: ticket
             })
         } catch(e) {
             res.status(500).send("No Trasnaction Found");
@@ -94,10 +94,13 @@ router.post('/paymentCapture', async (req, res) => {
     } else {
         try {
             const transaction = await Txn.findOne({orderId: razorData.successData.razorpay_order_id, status:"Authorized"})
+            if(!transaction) {
+                res.status(500).send("Transaction Order Not Created");
+            }
             transaction.status = "Invalid Sign";
             await transaction.save();
         } catch(e) {
-            res.status(500).send("No Trasnaction Found");
+            res.status(400).send("Transaction Declined - Incorrect Signature");
         }
         res.status(400).send('Invalid signature');
     }
