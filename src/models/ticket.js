@@ -47,6 +47,10 @@ const ticketSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    status: {
+        type: String,
+        default: "New"
+    },
     qrcode: {
         type: Buffer
     }

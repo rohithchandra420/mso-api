@@ -82,4 +82,21 @@ router.get('/GetTicket/:id/qrcode', async (req, res) => {
     }
 })
 
+router.post('/AdmitTicket', async (req, res) => {
+    const data = req.body;
+    try {
+        console.log(data);
+        const ticket = await Ticket.findById(data._id);
+        if(!ticket) {
+            throw new Error("No Ticket Found to Admit")
+        }
+        ticket.status = "Admitted";
+        await ticket.save();
+        console.log("Ticket", ticket);
+        res.send(ticket);
+    } catch(e) {
+        res.status(404).send();
+    }
+})
+
 module.exports = router
