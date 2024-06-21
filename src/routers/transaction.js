@@ -7,10 +7,11 @@ const Txn = require('../models/transaction');
 const Ticket = require('../models/ticket');
 
 router.post('/order', async (req, res) => {
-
+    var id = process.env.RAZORPAY_ID;
+    var secret = process.env.RAZORPAY_SECRET;
     var rzpayInstance = new Razorpay({
-        key_id: "rzp_test_Y9m41KlJg2w3JL",
-        key_secret: "XE2aRnfDyNbs58pxvDDOhYVH"
+        key_id: id,
+        key_secret: secret
     })
     // setting up options for razorpay order.
     const options = {
@@ -38,20 +39,20 @@ router.post('/order', async (req, res) => {
     }
 })
 
-router.post('/orderSuccess', async (req, res) => {
-    try {
-        const { orderId, paymentId } = req.query;
-        res.json({ orderId, paymentId })
-    } catch (e) {
-        res.status(500).send();
-    }
-})
+// router.post('/orderSuccess', async (req, res) => {
+//     try {
+//         const { orderId, paymentId } = req.query;
+//         res.json({ orderId, paymentId })
+//     } catch (e) {
+//         res.status(500).send();
+//     }
+// })
 
 router.post('/paymentCapture', async (req, res) => {
     // do a validation
     const razorData = req.body;
     console.log("razorData: ", razorData);
-    const secret_key = "XE2aRnfDyNbs58pxvDDOhYVH";
+    const secret_key = process.env.RAZORPAY_SECRET;
     
     const hmac = crypto.createHmac('sha256', secret_key)
     hmac.update(razorData.successData.razorpay_order_id + "|" + razorData.successData.razorpay_payment_id);

@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 
 const Ticket = require('../models/ticket');
 
-router.post('/createTicket', async (req, res) => {
+router.post('/createTicket', auth, async (req, res) => {
     const ticket = new Ticket(req.body);
     try {
         await ticket.save();
@@ -68,7 +68,7 @@ router.get('/GetTicketById/:id', auth, async (req, res) => {
     }
 })
 
-router.get('/GetTicket/:id/qrcode', async (req, res) => {
+router.get('/GetTicket/:id/qrcode', auth, async (req, res) => {
     try{
         const ticket = await Ticket.findById(req.params.id);
         if(!ticket || !ticket.qrcode) {
@@ -82,7 +82,7 @@ router.get('/GetTicket/:id/qrcode', async (req, res) => {
     }
 })
 
-router.post('/AdmitTicket', async (req, res) => {
+router.post('/AdmitTicket', auth, async (req, res) => {
     const data = req.body;
     try {
         console.log(data);
