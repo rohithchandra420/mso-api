@@ -20,7 +20,7 @@ const port = process.env.PORT
 //})
 
 const corsOptions ={
-    origin:'http://localhost:4200', 
+    origin:["https://mso-ng-ui-dev.web.app", 'http://localhost:4200'],
     optionSuccessStatus:200
 }
 
@@ -33,7 +33,7 @@ app.use(ticketRouter);
 app.use(productRouter);
 app.use(txnRouter);
 
-app.post('/test', (req, res) =>{
+app.post('/test', (req, res) =>{    
     res.send("Hello MSO1")
 })
 
