@@ -19,8 +19,9 @@ const port = process.env.PORT
 //     res.status(503).send("Site Under Maintainence");
 //})
 
+//"https://mso-ng-ui-dev.web.app"
 const corsOptions ={
-    origin:["https://mso-ng-ui-dev.web.app", "http://localhost:4200", "https://rohithchandra420.github.io/mso-ui"],
+    origin:["https://rohithchandra420.github.io/mso-ui", "http://localhost:4200"],
     optionSuccessStatus:200
 }
 
