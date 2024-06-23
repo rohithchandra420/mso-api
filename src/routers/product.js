@@ -8,14 +8,17 @@ const Product = require('../models/product');
 
 router.post('/addProduct', auth, async(req, res) => {
     //const product = new Product(req.body);
+    console.log("Add Product Start");
     const product = new Product({
         ...req.body,
         createdBy: req.user._id
     })
     try {
         await product.save();
+        console.log("Add Product Success");
         res.send(product);
     } catch(e) {
+        console.log("Add Product Fail");
         res.status(400).send()
     }
 })
@@ -33,14 +36,18 @@ router.get('/getProductById/:id', auth, async(req, res) => {
     }
 })
 
-router.get('/getAllProducts', async (req, res) => {
+router.get('/getAllProducts', async (req, res) => {    
     try {
+        console.log("Get All Product Start");
         const products = await Product.find({});
         if(!products) {
+            console.log("Get All Product Failed: Not Found");
             res.status(401).send("No Item Found");
         }
+        console.log("Get All Product Success");
         res.send(products);
     } catch(e) {
+        console.log("Get All Product Failed");
         res.status(500).send();
     }
 })
