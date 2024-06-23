@@ -20,7 +20,7 @@ const port = process.env.PORT
 //})
 
 const corsOptions ={
-    origin:["https://mso-ng-ui-dev.web.app", 'http://localhost:4200'],
+    origin:["https://mso-ng-ui-dev.web.app", "http://localhost:4200", "https://rohithchandra420.github.io/mso-ui"],
     optionSuccessStatus:200
 }
 
