@@ -51,30 +51,26 @@ router.post('/order', async (req, res) => {
 router.post('/paymentCapture', async (req, res) => {
     // do a validation
     const razorData = req.body;
-    console.log("razorData: ", razorData);
     const secret_key = process.env.RAZORPAY_SECRET;
     
     const hmac = crypto.createHmac('sha256', secret_key)
     hmac.update(razorData.successData.razorpay_order_id + "|" + razorData.successData.razorpay_payment_id);
 
-    const gen_hmac = hmac.digest('hex')    
-    console.log("GEN: ", gen_hmac)
-    console.log("header: ", req.header('RazorpaySignature'))
-    console.log("Body-Sign: ", razorData.successData.razorpay_signature)
+    const gen_hmac = hmac.digest('hex')
     
     if (gen_hmac === razorData.successData.razorpay_signature) {
         console.log('request is legit')
-        const ticket = new Ticket({
-            name: razorData.name,
-            phone: razorData.phone,
-            email: razorData.email,
-            amount: razorData.amount,
-            orderId: razorData.successData.razorpay_order_id,
-            paymentId: razorData.successData.razorpay_payment_id,
-            shopCart: razorData.shopCart,
-        });
-
         try {
+            const ticket = new Ticket({
+                name: razorData.name,
+                phone: razorData.phone,
+                email: razorData.email,
+                amount: razorData.amount,
+                orderId: razorData.successData.razorpay_order_id,
+                paymentId: razorData.successData.razorpay_payment_id,
+                shopCart: razorData.shopCart,
+            });
+            console.log("ticket: ", ticket);
             await ticket.save();
             const transaction = await Txn.findOne({orderId: razorData.successData.razorpay_order_id, status:"Authorized"})
             
@@ -84,12 +80,14 @@ router.post('/paymentCapture', async (req, res) => {
             transaction.ticket_id = ticket._id;
             transaction.paymentId = razorData.successData.razorpay_payment_id;
             transaction.status = "Captured";
+            console.log("transaction: ", transaction);
             await transaction.save(); 
             res.json({
                 status: 'ok',
                 payload: ticket
             })
         } catch(e) {
+            console.log(e);
             res.status(500).send("No Trasnaction Found");
         }
     } else {

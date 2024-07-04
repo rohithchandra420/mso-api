@@ -19,9 +19,8 @@ const port = process.env.PORT
 //     res.status(503).send("Site Under Maintainence");
 //})
 
-//,"https://rohithchandra420.github.io/mso-ui"
 const corsOptions ={
-    origin:["https://makesomeochha.com"],
+    origin:["https://makesomeochha.com", "https://rc-hellboy-rc.in"],
     optionSuccessStatus:200
 }
 
